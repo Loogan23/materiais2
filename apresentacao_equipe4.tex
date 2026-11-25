@@ -15,7 +15,6 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{array}
-\usepackage{multicol}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
 
@@ -70,13 +69,10 @@
 
 % Metadados da Apresentação
 \title[Tema 4: Optoeletrônica e Fotodetectores]{\textbf{Capítulo 8: Materiais e Dispositivos Optoeletrônicos}}
-\subtitle{Fundamentação Teórica (8.1 a 8.4) e Caracterização Experimental da Responsividade do Fotodiodo InGaAs (SM05PD5A)}
-\author[Equipe 4: Logan e Samuel]{%
-  \textbf{Equipe 4:} Logan \and Samuel Farias
-}
+\subtitle{Revisão Teórica (8.1 a 8.4) e Caracterização Experimental da Responsividade do Fotodiodo InGaAs (SM05PD5A)}
+\author[Equipe 4: Logan e Samuel Farias]{\textbf{Equipe 4:} Logan e Samuel Farias}
 \institute[Materiais Eletrônicos e Optoeletrônicos]{%
-  Disciplina: Materiais Eletrônicos e Optoeletrônicos\\
-  2ª Avaliação --- Seminários
+  Disciplina: Materiais Eletrônicos e Optoeletrônicos $\bullet$ 2ª Avaliação --- Seminários
 }
 \date{Novembro / Dezembro de 2026}
 
@@ -85,176 +81,153 @@
 \setlength{\belowdisplayskip}{3pt}
 
 % ============================================================================
-% SLIDE 1: CAPA
+% SLIDE 1: CAPA E VISÃO GERAL
 % ============================================================================
 \begin{frame}
+  \vspace{-0.2cm}
   \titlepage
-  \vspace{-0.3cm}
+  \vspace{-0.45cm}
+  \begin{columns}[T, onlytextwidth]
+    \begin{column}{0.485\textwidth}
+      \begin{block}{\footnotesize Parte I: Revisão Teórica (Slides 2--5)}
+        \scriptsize
+        \textbf{8.1} Propriedades Ópticas $\bullet$ \textbf{8.2} Modelo Clássico (Drude e Lorentz) $\bullet$ \textbf{8.3} Teoria Quântica e \textit{Gap} $\bullet$ \textbf{8.4} Fotodetectores e Responsividade.
+      \end{block}
+    \end{column}
+    \begin{column}{0.485\textwidth}
+      \begin{alertblock}{\footnotesize Parte II: Experimento e Resultados (Slides 6--10)}
+        \scriptsize
+        Caracterização de $\mathcal{R}(\lambda)$ no \textbf{SM05PD5A} ($\text{InGaAs}$) com lasers \textbf{MCLS1} ($1350\text{ nm}$ e $1550\text{ nm}$), módulo \textbf{PBM42} e vídeo demonstrativo.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+  \vspace{0.1cm}
   \begin{center}
-    \footnotesize \textcolor{SecondaryBlue}{\textbf{Referência Base:} S. M. Rezende, \textit{Materiais e Dispositivos Eletrônicos}, 2ª Ed. (Cap. 8) $\bullet$ Manuais Thorlabs (MCLS1, SM05PD5A, PBM42)}
+    \scriptsize \textcolor{SecondaryBlue}{\textbf{Referências:} S. M. Rezende, \textit{Materiais e Dispositivos Eletrônicos}, 2ª Ed. (Cap. 8) $\bullet$ Datasheets Thorlabs (MCLS1, SM05PD5A, PBM42)}
   \end{center}
 \end{frame}
 
 % ============================================================================
-% SLIDE 2: SUMÁRIO E ESTRUTURA DO TRABALHO
+% SLIDE 2: [TEORIA 1/4] 8.1 PROPRIEDADES ÓPTICAS DOS MATERIAIS
 % ============================================================================
-\begin{frame}{Estrutura da Apresentação e Objetivos}
+\begin{frame}{8.1 Propriedades Ópticas dos Materiais}
   \begin{columns}[T, onlytextwidth]
-    \begin{column}{0.485\textwidth}
-      \begin{block}{Parte I: Fundamentação Teórica (5 Slides)}
-        Baseada no Capítulo 8 de Sergio M. Rezende:
-        \vspace{0.1cm}
-        \begin{itemize}
-          \item \textbf{8.1 Propriedades Ópticas dos Materiais:} Índice de refração complexo, absorção e refletividade.
-          \item \textbf{8.2 Interação Radiação-Matéria (Clássica):} Modelos de Drude (metais) e Lorentz (elétrons ligados).
-          \item \textbf{8.3 Teoria Quântica da Interação:} Transições interbanda, \textit{gap} direto vs.\ indireto e corte $\lambda_g$.
-          \item \textbf{8.4 Fotodetectores e Fotodiodos:} Eficiência quântica $\eta$, junção $p\text{-}n$, modos de operação e responsividade $\mathcal{R}(\lambda)$.
-        \end{itemize}
-      \end{block}
-    \end{column}
-
-    \begin{column}{0.485\textwidth}
-      \begin{alertblock}{Parte II: Experimentação (5 Slides)}
-        Determinação da responsividade em função de $\lambda$:
-        \vspace{0.1cm}
-        \begin{itemize}
-          \item \textbf{Objetivo Experimental:} Medir e comparar a responsividade $\mathcal{R}(\lambda)$ em dois comprimentos de onda no infravermelho próximo (NIR).
-          \item \textbf{Fontes Ópticas (Thorlabs MCLS1):} Dois lasers diodo acoplados a fibra ($\lambda_1 = 1350\text{ nm}$ e $\lambda_2 = 1550\text{ nm}$).
-          \item \textbf{Detecção e Polarização:} Fotodiodo montado de $\text{InGaAs}$ (\textbf{SM05PD5A}) + Módulo de polarização reversa (\textbf{PBM42}).
-          \item \textbf{Análise:} Validação experimental frente à curva teórica do datasheet.
-        \end{itemize}
-      \end{alertblock}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% ============================================================================
-% SLIDE 3: [TEORIA 1/5] 8.1 PROPRIEDADES ÓPTICAS DOS MATERIAIS
-% ============================================================================
-\begin{frame}[shrink=4]{8.1 Propriedades Ópticas dos Materiais}
-  \begin{columns}[T, onlytextwidth]
-    \begin{column}{0.51\textwidth}
-      \begin{block}{Ondas Eletromagnéticas e Índice Complexo}
-        Em um meio com permissividade $\varepsilon$ e condutividade $\sigma$, as equações de Maxwell levam à equação de onda:
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Equação de Onda e Índice Complexo}
+        Em um meio com permissividade $\varepsilon$ e condutividade $\sigma$, as equações de Maxwell levam a:
         \[
           \frac{\partial^2 \vec{\mathcal{E}}}{\partial x^2} = \mu\varepsilon \frac{\partial^2 \vec{\mathcal{E}}}{\partial t^2} + \mu\sigma \frac{\partial \vec{\mathcal{E}}}{\partial t}
         \]
-        Definindo o \textbf{índice de refração complexo} $N(\omega)$:
+        A propagação é descrita pelo \textbf{índice de refração complexo} $N(\omega)$:
         \[
           N(\omega) = \left(\varepsilon + i\frac{\sigma}{\omega\varepsilon_0}\right)^{1/2} = n + i\kappa
         \]
         \begin{itemize}
-          \item $n = c/v_f$: \textbf{índice de refração} (velocidade de fase).
-          \item $\kappa$: \textbf{coeficiente de extinção} (amortecimento da onda).
+          \item $n = c/v_f$: \textbf{índice de refração} (define a velocidade de fase no meio).
+          \item $\kappa$: \textbf{coeficiente de extinção} (determina a atenuação da onda).
         \end{itemize}
       \end{block}
-      \vspace{-0.15cm}
-      \begin{exampleblock}{Relações Constitutivas ($N^2 = \varepsilon + i\sigma/\omega\varepsilon_0$)}
-        \[
-          n^2 - \kappa^2 = \varepsilon' - \frac{\sigma''}{\omega\varepsilon_0} \qquad\text{e}\qquad 2n\kappa = \varepsilon'' + \frac{\sigma'}{\omega\varepsilon_0}
-        \]
-      \end{exampleblock}
     \end{column}
 
-    \begin{column}{0.46\textwidth}
+    \begin{column}{0.48\textwidth}
       \begin{alertblock}{Absorção e Lei de Beer-Lambert}
-        O campo decai como $\mathcal{E}(x,t) = \mathcal{E}_0 \cos\left(\frac{\omega n}{c}x - \omega t\right)e^{-\frac{\omega\kappa}{c}x}$. A intensidade média ($I = \langle S \rangle \propto \mathcal{E}_0^2$) decai exponencialmente:
+        A amplitude decai como $e^{-\frac{\omega\kappa}{c}x}$ e a intensidade média ($I \propto \mathcal{E}_0^2$) decai exponencialmente:
         \[
           I(x) = I_0 \, e^{-\alpha x}, \qquad \alpha = \frac{2\omega\kappa}{c} = \frac{4\pi\kappa}{\lambda}
         \]
         \begin{itemize}
-          \item $\alpha$: \textbf{coeficiente de absorção} ($\text{m}^{-1}$ ou $\text{cm}^{-1}$).
-          \item $\delta = 2/\alpha = c/(\omega\kappa)$: penetração do campo.
-          \item Fluxo de fótons: $\Phi = \dfrac{I}{\hbar\omega} = \dfrac{P}{A\hbar\omega}$.
+          \item $\alpha$: \textbf{coeficiente de absorção} ($\text{m}^{-1}$ ou $\text{cm}^{-1}$); profundidade $\delta = 2/\alpha$.
+          \item \textbf{Fluxo de fótons:} $\Phi = \dfrac{I}{\hbar\omega} = \dfrac{P}{A\,\hbar\omega} = \dfrac{P\,\lambda}{A\,hc}$.
         \end{itemize}
       \end{alertblock}
-      \vspace{-0.15cm}
-      \begin{block}{Refletividade Normal ($R$, com $R + T = 1$)}
+      \vspace{-0.1cm}
+      \begin{exampleblock}{Refletividade Normal ($R$, com $R + T = 1$)}
         \[
           R = \frac{(n-1)^2 + \kappa^2}{(n+1)^2 + \kappa^2}
         \]
-      \end{block}
+      \end{exampleblock}
     \end{column}
   \end{columns}
 \end{frame}
 
 % ============================================================================
-% SLIDE 4: [TEORIA 2/5] 8.2 INTERAÇÃO DA RADIAÇÃO COM A MATÉRIA - MODELO CLÁSSICO
+% SLIDE 3: [TEORIA 2/4] 8.2 INTERAÇÃO DA RADIAÇÃO COM A MATÉRIA - MODELO CLÁSSICO
 % ============================================================================
 \begin{frame}[shrink=2]{8.2 Interação da Radiação com a Matéria --- Modelo Clássico}
   \begin{columns}[T, onlytextwidth]
     \begin{column}{0.485\textwidth}
       \begin{block}{8.2.1 Elétrons Livres em Metais (Drude)}
-        Equação de movimento com tempo de colisão $\tau$:
+        Com tempo médio de colisão $\tau$:
         \[
-          m\frac{dv}{dt} + \frac{m}{\tau}v = -e\mathcal{E}_0 e^{-i\omega t} \Rightarrow \sigma(\omega) = \frac{Ne^2\tau}{m(1 - i\omega\tau)}
+          m\frac{dv}{dt} + \frac{m}{\tau}v = -e\mathcal{E}_0 e^{-i\omega t} \;\Rightarrow\; \sigma(\omega) = \frac{Ne^2\tau}{m(1 - i\omega\tau)}
         \]
-        Em altas frequências ($\omega\tau \gg 1$), o índice complexo é:
+        Para altas frequências ($\omega\tau \gg 1$):
         \[
           N^2(\omega) = \varepsilon_c\left(1 - \frac{\omega_p^2}{\omega^2}\right), \quad \omega_p^2 = \frac{Ne^2}{m\varepsilon_0\varepsilon_c}
         \]
         \begin{itemize}
           \item $\omega_p$: \textbf{frequência de plasma} ($\hbar\omega_p \sim 4\text{--}10\text{ eV}$, UV).
-          \item $\omega < \omega_p$ (IR e Visível): $N(\omega)$ é imaginário puro ($n=0 \Rightarrow \mathbf{R = 1}$). Metais são ótimos refletores!
-          \item $\omega > \omega_p$ (UV): $N(\omega)$ é real (transparente).
+          \item $\omega < \omega_p$ (IR/Visível): $N$ imaginário puro ($n = 0 \Rightarrow \mathbf{R = 1}$, alta refletividade metálica).
+          \item $\omega > \omega_p$ (UV): $N$ real (meio transparente).
         \end{itemize}
       \end{block}
     \end{column}
 
     \begin{column}{0.485\textwidth}
       \begin{block}{8.2.2 Elétrons Ligados (Oscilador de Lorentz)}
-        Elétrons de valência sujeitos a força restauradora ($k = m\omega_0^2$) e amortecimento $\Gamma$:
+        Elétrons sujeitos à força restauradora ($m\omega_0^2 x$) e amortecimento $\Gamma$:
         \[
           m\left(\frac{d^2x}{dt^2} + \Gamma\frac{dx}{dt} + \omega_0^2 x\right) = -e\mathcal{E}_0 e^{-i\omega t}
         \]
-        A polarização $P = -Nex$ fornece $\varepsilon(\omega) = \varepsilon'(\omega) + i\varepsilon''(\omega)$:
+        Da polarização $P = -Nex$ obtém-se $\varepsilon(\omega) = \varepsilon'(\omega) + i\varepsilon''(\omega)$:
         \[
-          \varepsilon'(\omega) = \varepsilon_\infty + \frac{\omega_p^2(\omega_0^2 - \omega^2)}{(\omega_0^2 - \omega^2)^2 + \omega^2\Gamma^2}
-        \]
-        \[
-          \varepsilon''(\omega) = \frac{\omega_p^2\omega\Gamma}{(\omega_0^2 - \omega^2)^2 + \omega^2\Gamma^2} \approx \frac{\pi\omega_p^2}{2\omega_0} f_L(\omega)
+          \varepsilon''(\omega) = \frac{\omega_p^2\,\omega\Gamma}{(\omega_0^2 - \omega^2)^2 + \omega^2\Gamma^2} \approx \frac{\pi\omega_p^2}{2\omega_0} f_L(\omega)
         \]
         \begin{itemize}
-          \item \textbf{Ressonância ($\omega \approx \omega_0$):} Pico de absorção Lorentziano $f_L(\omega)$ com largura de linha $\Gamma$ e dispersão em $\varepsilon'(\omega)$ (Kramers-Kronig).
+          \item \textbf{Ressonância ($\omega \approx \omega_0$):} Pico Lorentziano de absorção ($\varepsilon''$) associado à dispersão em $\varepsilon'(\omega)$ (Kramers-Kronig).
         \end{itemize}
       \end{block}
+      \vspace{-0.15cm}
+      \begin{alertblock}{Limite Clássico}
+        \scriptsize Não explica o corte abrupto de absorção em $E_g$ nos semicondutores $\rightarrow$ requer descrição quântica (Seção 8.3).
+      \end{alertblock}
     \end{column}
   \end{columns}
 \end{frame}
 
 % ============================================================================
-% SLIDE 5: [TEORIA 3/5] 8.3 TEORIA QUÂNTICA DA INTERAÇÃO RADIAÇÃO-MATÉRIA
+% SLIDE 4: [TEORIA 3/4] 8.3 TEORIA QUÂNTICA DA INTERAÇÃO RADIAÇÃO-MATÉRIA
 % ============================================================================
-\begin{frame}[shrink=6]{8.3 Teoria Quântica da Interação Radiação-Matéria}
+\begin{frame}[shrink=7]{8.3 Teoria Quântica da Interação Radiação-Matéria}
   \begin{columns}[T, onlytextwidth]
-    \begin{column}{0.57\textwidth}
-      \begin{block}{Transições Quânticas e Regra de Ouro de Fermi}
-        A interação de dipolo elétrico $\mathcal{H}'(t) = -\mathcal{E}p_y e^{-i\omega t}$ induz transições entre estados $E_1$ e $E_2$ com probabilidade por unidade de tempo:
+    \begin{column}{0.56\textwidth}
+      \begin{block}{Transições Quânticas (Regra de Ouro de Fermi)}
+        A perturbação de dipolo elétrico $\mathcal{H}' = -\mathcal{E}p_y e^{-i\omega t}$ induz transições $E_1 \to E_2$ com taxa:
         \[
           W_{12} = \frac{2\pi}{\hbar}\mathcal{E}^2 p_{12}^2 D(E_2 - E_1 - \hbar\omega)
         \]
-        A absorção exige $\hbar\omega = E_2 - E_1$, dipolo $p_{12} \neq 0$ (regras de seleção) e $N_1 > N_2$.
+        Exige $\hbar\omega = E_2 - E_1$, $p_{12} \neq 0$ e $N_1 > N_2$.
       \end{block}
       \vspace{-0.15cm}
       \begin{alertblock}{Transições Interbanda em Semicondutores}
         \begin{itemize}
-          \item \textbf{Condição de absorção:} $\hbar\omega \ge E_g$ (fótons com $\hbar\omega < E_g$ não são absorvidos).
+          \item \textbf{Condição de absorção:} $\hbar\omega \ge E_g$ (abaixo de $E_g$, o material é transparente).
           \item \textbf{Comprimento de onda de corte ($\lambda_g$):}
           \[
             \lambda \le \lambda_g = \frac{hc}{E_g} \implies \mathbf{\lambda_g\,(\mu\text{m}) \approx \frac{1{,}24}{E_g\,(\text{eV})}}
           \]
-          \item \textbf{Gap Direto} ($\text{GaAs}, \text{InP}, \text{InGaAs}$): Conservação direta de $\vec{k}$ ($\vec{k}_f \simeq \vec{k}_i$). Forte absorção: $\alpha(\omega) \propto (\hbar\omega - E_g)^{1/2}/\omega$.
-          \item \textbf{Gap Indireto} ($\text{Si}, \text{Ge}$): Requer participação simultânea de um \textbf{fônon} ($\hbar\Omega, \vec{q}$) para conservar momento cristalino.
+          \item \textbf{Gap Direto} ($\text{GaAs}, \text{InP}, \text{InGaAs}$): $\vec{k}_f \simeq \vec{k}_i$, absorção forte $\alpha \propto (\hbar\omega - E_g)^{1/2}/\omega$.
+          \item \textbf{Gap Indireto} ($\text{Si}, \text{Ge}$): exige participação de um \textbf{fônon} ($\hbar\Omega, \vec{q}$).
         \end{itemize}
       \end{alertblock}
     \end{column}
 
-    \begin{column}{0.40\textwidth}
+    \begin{column}{0.41\textwidth}
       \begin{center}
-        \includegraphics[height=2.5cm]{figuras/rezende_gap_direto.png}\\
-        {\scriptsize \textbf{Fig. 8.8 (Rezende):} Absorção interbanda em semicondutor de \textit{gap} direto ($\hbar\omega \ge E_g$).}
+        \includegraphics[height=2.35cm]{figuras/rezende_gap_direto.png}\\
+        {\scriptsize \textbf{Fig. 8.8 (Rezende):} Absorção em \textit{gap} direto ($\hbar\omega \ge E_g$).}
       \end{center}
-      \vspace{-0.2cm}
+      \vspace{-0.15cm}
       \begin{table}
         \centering
         \scriptsize
@@ -270,302 +243,278 @@
           \bottomrule
         \end{tabular}
       \end{table}
+      \vspace{-0.2cm}
+      {\scriptsize \textcolor{LaserRed}{\textbf{Nota:}} O $\text{Si}$ corta em $1{,}11\,\mu\text{m}$; para $1350/1550\text{ nm}$ usa-se $\text{InGaAs}$.}
     \end{column}
   \end{columns}
 \end{frame}
 
 % ============================================================================
-% SLIDE 6: [TEORIA 4/5] 8.4 FOTODETECTORES: PRINCÍPIOS E DISPOSITIVOS
+% SLIDE 5: [TEORIA 4/4] 8.4 FOTODETECTORES E FOTODIODOS
 % ============================================================================
-\begin{frame}[shrink=15]{8.4 Fotodetectores: Princípios e Classificação}
+\begin{frame}[shrink=3]{8.4 Fotodetectores, Junção $p\text{-}n$ e Responsividade}
   \begin{columns}[T, onlytextwidth]
     \begin{column}{0.56\textwidth}
-      \begin{block}{Geração de Pares Elétron-Buraco e Eficiência Quântica}
-        Para absorver toda a luz incidente, a espessura ativa $d$ deve satisfazer $d \gg \alpha^{-1}$ (tipicamente $\alpha \sim 10^6\text{ m}^{-1} \Rightarrow d \sim \text{alguns }\mu\text{m}$).
+      \begin{block}{Princípios e Principais Dispositivos}
+        Para absorção eficiente, requer-se espessura ativa $d \gg \alpha^{-1}$ ($\alpha \sim 10^6\text{ m}^{-1}$). A \textbf{eficiência quântica} $\eta \in [0,1]$ mede os pares elétron-buraco coletados por fóton incidente.
         \begin{itemize}
-          \item \textbf{Eficiência Quântica ($\eta$):} Razão entre o número de pares elétron-buraco gerados e o número de fótons incidentes ($0 \le \eta \le 1$).
-          \item \textbf{Taxa de geração volumétrica ($g$) e excesso de portadores:}
-          \[
-            g = \frac{\eta \Phi}{d} = \frac{\eta I_0}{\hbar\omega d} \implies \delta n = \delta p = g\tau_r = \frac{\eta I_0 \tau_r}{\hbar\omega d}
-          \]
+          \item \textbf{Tipos:} Foto-resistores (LDR, alto ganho, lentos $\sim 50\text{ ms}$), \textbf{Fotodiodos} ($p\text{-}n$/PIN/Avalanche, rápidos $\sim\text{ns}$), Células Solares e CCDs.
         \end{itemize}
       \end{block}
-      \vspace{-0.15cm}
-      \begin{exampleblock}{Principais Dispositivos Fotodetectores (Seção 8.4)}
-        \begin{enumerate}
-          \item \textbf{Foto-resistores (LDR):} Variação da condutividade $\Delta\sigma = g\tau_r e(\mu_n + \mu_p)$. Alto ganho ($10^3\text{--}10^4$), mas resposta lenta ($\sim 50\text{ ms}$).
-          \item \textbf{Fotodiodos ($p\text{-}n$, PIN, Avalanche):} Rápidos ($\sim\text{ns}$), resposta linear e baixa corrente de escuro.
-          \item \textbf{Células Solares:} Junção $p\text{-}n$ de grande área operando no 4º quadrante para geração fotovoltaica de energia.
-          \item \textbf{Sensores CCD:} Matriz de capacitores MOS que armazenam pacotes de carga fotogerada por pixel.
-        \end{enumerate}
+      \vspace{-0.1cm}
+      \begin{exampleblock}{Fotodiodo $p\text{-}n$: Modos de Operação}
+        \[
+          I = I_s\left(e^{eV/k_B T} - 1\right) - I_L, \qquad I_L = \frac{\eta \, e \, P_L \, \lambda}{hc}
+        \]
+        \begin{itemize}
+          \item \textbf{Fotovoltaico ($I=0$):} gera tensão $V_{ca}$; corrente de escuro mínima.
+          \item \textbf{Fotocondutivo ($V < 0$, Polarização Reversa):} usado no experimento; reduz $C_J$, aumenta velocidade e garante \textbf{linearidade} ($I_L \propto P_L$).
+        \end{itemize}
       \end{exampleblock}
     \end{column}
 
     \begin{column}{0.41\textwidth}
       \begin{center}
-        \includegraphics[height=3.1cm]{figuras/rezende_absorcao.png}\\
-        {\scriptsize \textbf{Fig. 8.15 (Rezende):} Coeficiente de absorção $\alpha(\lambda)$ para diversos semicondutores.}
+        \begin{columns}[c, onlytextwidth]
+          \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[height=2.15cm]{figuras/rezende_absorcao.png}\\
+            {\tiny \textbf{Fig. 8.15:} $\alpha(\lambda)$ por material.}
+          \end{column}
+          \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[height=2.15cm]{figuras/rezende_curva_iv.png}\\
+            {\tiny \textbf{Fig. 8.20:} Curva $I\text{--}V$ iluminada.}
+          \end{column}
+        \end{columns}
       \end{center}
-      \vspace{-0.2cm}
-      \begin{alertblock}{Por que InGaAs para $1350\text{ nm}$ e $1550\text{ nm}$?}
-        O $\text{Si}$ corta em $\lambda_g = 1{,}11\,\mu\text{m}$ (transparente em $1350/1550\text{ nm}$). A liga $\text{Ga}_{0,47}\text{In}_{0,53}\text{As}$ possui \textit{gap} direto com $\alpha \sim 10^6\text{ m}^{-1}$ até $1{,}7\,\mu\text{m}$, ideal para comunicações ópticas!
-      \end{alertblock}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% ============================================================================
-% SLIDE 7: [TEORIA 5/5] 8.4 FOTODIODOS, MODOS DE OPERAÇÃO E RESPONSIVIDADE
-% ============================================================================
-\begin{frame}[shrink=14]{8.4 Fotodiodos: Modos de Operação e Responsividade}
-  \begin{columns}[T, onlytextwidth]
-    \begin{column}{0.55\textwidth}
-      \begin{block}{Dinâmica da Junção $p\text{-}n$ sob Iluminação}
-        Fótons absorvidos na região de depleção (e a uma distância de difusão $L_n, L_p$) criam pares elétron-buraco separados pelo campo interno $\vec{\mathcal{E}}$, gerando a fotocorrente reversa $I_L$:
-        \[
-          I = I_s\left(e^{eV/k_B T} - 1\right) - I_L, \qquad I_L = \frac{\eta \, e \, P_L \, \lambda}{hc}
-        \]
-        \begin{itemize}
-          \item \textbf{Modo Fotovoltaico ($V$ aberto, $I=0$):} Gera tensão $V_{ca} = \frac{k_B T}{e}\ln\left(\frac{I_L}{I_s}+1\right)$. Corrente de escuro mínima.
-          \item \textbf{Modo Fotocondutivo ($V < 0$, Polarização Reversa):} Opera no 3º quadrante ($I \simeq I_s - I_L$). Alarga a camada de depleção, \textbf{reduz a capacitância $C_J$}, garante alta velocidade e \textbf{linearidade} ($I_L \propto P_L$).
-        \end{itemize}
-      \end{block}
-      \vspace{-0.15cm}
+      \vspace{0.05cm}
       \begin{alertblock}{Responsividade $\mathcal{R}(\lambda)$ [A/W]}
-        Razão entre a fotocorrente gerada ($I_P \equiv I_L$) e a potência óptica incidente ($P$):
+        Razão entre fotocorrente ($I_P \equiv I_L$) e potência óptica ($P$):
         \[
-          \mathbf{\mathcal{R}(\lambda) = \frac{I_P}{P} = \frac{\eta \, e \, \lambda}{hc} \approx \eta\,\frac{\lambda\,(\mu\text{m})}{1{,}24}\;\;\text{[A/W]}}
+          \mathbf{\mathcal{R}(\lambda) = \frac{I_P}{P} = \frac{\eta \, e \, \lambda}{hc} \approx \eta\,\frac{\lambda\,(\mu\text{m})}{1{,}24}\;\text{[A/W]}}
         \]
+        \scriptsize Para potência $P$ fixa, $\lambda$ maior fornece mais fótons/s ($\Phi = P\lambda/hc$), elevando $\mathcal{R}(\lambda)$.
       \end{alertblock}
-    \end{column}
-
-    \begin{column}{0.42\textwidth}
-      \begin{center}
-        \includegraphics[height=2.3cm]{figuras/rezende_juncoes_pn.png}\\
-        {\scriptsize \textbf{Fig. 8.19 (Rezende):} Separação de pares na região de depleção da junção $p\text{-}n$.}
-        \vspace{0.08cm}
-
-        \includegraphics[height=2.3cm]{figuras/rezende_curva_iv.png}\\
-        {\scriptsize \textbf{Fig. 8.20 (Rezende):} Curvas $I\text{--}V$ no escuro ($P_L=0$) e sob iluminação ($P_1 < P_2$).}
-      \end{center}
     \end{column}
   \end{columns}
 \end{frame}
 
 % ============================================================================
-% SLIDE 8: [EXPERIMENTO 1/5] VISÃO GERAL E OBJETIVO DO EXPERIMENTO
+% SLIDE 6: [EXPERIMENTO 1/5] ARRANJO EXPERIMENTAL E EQUIPAMENTOS
 % ============================================================================
-\begin{frame}[shrink=2]{Parte Experimental: Objetivo e Arranjo Geral}
-  \begin{block}{Objetivo Principal do Experimento}
-    Determinar experimentalmente a \textbf{responsividade $\mathcal{R}(\lambda)$} do fotodiodo de $\text{InGaAs}$ (\textbf{Thorlabs SM05PD5A}) a partir de dois comprimentos de onda distintos no infravermelho próximo ($\mathbf{1350\text{ nm}}$ e $\mathbf{1550\text{ nm}}$), verificando a dependência linear $\mathcal{R}(\lambda) \propto \lambda$ prevista pela teoria quântica e comparando com a curva de calibração do fabricante.
-  \end{block}
-
-  \vspace{0.15cm}
+\begin{frame}[shrink=2]{Parte Experimental: Arranjo e Equipamentos}
   \begin{center}
     \begin{tikzpicture}[
-      box/.style={rectangle, rounded corners=4pt, draw=PrimaryBlue, very thick, fill=LightBg, text width=2.75cm, align=center, minimum height=1.5cm, font=\scriptsize\sffamily},
-      laserbox/.style={rectangle, rounded corners=4pt, draw=LaserRed, very thick, fill=AlertBg, text width=2.85cm, align=center, minimum height=1.5cm, font=\scriptsize\sffamily},
-      arrow/.style={-{Stealth[length=2.2mm, width=1.8mm]}, very thick, color=PrimaryBlue},
-      optarrow/.style={-{Stealth[length=2.2mm, width=1.8mm]}, very thick, color=LaserRed, dashed}
+      box/.style={rectangle, rounded corners=4pt, draw=PrimaryBlue, very thick, fill=LightBg, text width=2.65cm, align=center, minimum height=1.25cm, font=\scriptsize\sffamily},
+      laserbox/.style={rectangle, rounded corners=4pt, draw=LaserRed, very thick, fill=AlertBg, text width=2.75cm, align=center, minimum height=1.25cm, font=\scriptsize\sffamily},
+      arrow/.style={-{Stealth[length=2.1mm, width=1.6mm]}, very thick, color=PrimaryBlue},
+      optarrow/.style={-{Stealth[length=2.1mm, width=1.6mm]}, very thick, color=LaserRed, dashed}
     ]
-      \node[laserbox] (mcls) {\textbf{Fonte Laser MCLS1}\\Lasers Diodo em Fibra\\$\lambda_1 = 1350\text{ nm}$\\$\lambda_2 = 1550\text{ nm}$};
-      \node[box, right=0.85cm of mcls] (pd) {\textbf{Fotodiodo SM05PD5A}\\Sensor $\text{InGaAs}$\\Área ativa: $3{,}1\text{ mm}^2$\\Faixa: $800\text{--}1700\text{ nm}$};
-      \node[box, right=0.85cm of pd] (pbm) {\textbf{Módulo PBM42}\\Polarização Reversa ($V_R \le 3\text{ V}$)\\Filtro RC interno};
-      \node[box, right=0.85cm of pbm] (meas) {\textbf{Aquisição ($R_L$)}\\\textbf{Medição de $V_o$ ou $I_P$}\\$V_o = P \cdot \mathcal{R}(\lambda) \cdot R_L$\\Cálculo de $\mathcal{R}(\lambda)$};
+      \node[laserbox] (mcls) {\textbf{Fonte Laser MCLS1}\\Lasers Diodo em Fibra\\$\lambda_1 = 1350\text{ nm}$ e $\lambda_2 = 1550\text{ nm}$};
+      \node[box, right=0.95cm of mcls] (pd) {\textbf{Fotodiodo SM05PD5A}\\Sensor $\text{InGaAs}$\\Área: $3{,}1\text{ mm}^2$ ($\varnothing\,2{,}0\text{ mm}$)};
+      \node[box, right=0.95cm of pd] (pbm) {\textbf{Módulo PBM42}\\Polarização Reversa\\($V_R \le 3\text{ V}$) + Filtro RC};
+      \node[box, right=0.95cm of pbm] (meas) {\textbf{Carga $R_L$ e Leitura}\\Medição de $V_o$ ou $I_P$\\$\mathcal{R}(\lambda) = I_P / P$};
 
-      \draw[optarrow] (mcls) -- node[above, font=\scriptsize\bfseries, color=LaserRed] {Fibra} node[below, font=\tiny, color=LaserRed] {Potência $P$} (pd);
+      \draw[optarrow] (mcls) -- node[above, font=\scriptsize\bfseries, color=LaserRed] {Fibra} node[below, font=\tiny, color=LaserRed] {$P$} (pd);
       \draw[arrow] (pd) -- node[above, font=\scriptsize\bfseries] {BNC} node[below, font=\tiny] {$I_P(\lambda)$} (pbm);
       \draw[arrow] (pbm) -- node[above, font=\scriptsize\bfseries] {SMA} node[below, font=\tiny] {Sinal CC} (meas);
     \end{tikzpicture}
   \end{center}
-
-  \vspace{0.1cm}
-  \begin{columns}[T, onlytextwidth]
-    \begin{column}{0.485\textwidth}
-      \begin{exampleblock}{Relevância Tecnológica ($1350\text{ nm}$ e $1550\text{ nm}$)}
-        Situam-se nas janelas de baixa atenuação e baixa dispersão das fibras ópticas de sílica (Bandas O/E e Banda C de telecomunicações).
-      \end{exampleblock}
-    \end{column}
-    \begin{column}{0.485\textwidth}
-      \begin{alertblock}{Princípio da Verificação Quântica}
-        Como $E_{\text{fóton}} = hc/\lambda$, um mesmo nível de potência óptica $P$ em $1550\text{ nm}$ contém \textbf{$\sim 14{,}8\%$ mais fótons por segundo} do que em $1350\text{ nm}$, elevando $\mathcal{R}(\lambda)$.
-      \end{alertblock}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% ============================================================================
-% SLIDE 9: [EXPERIMENTO 2/5] FONTE DE LASER MULTICANAL (THORLABS MCLS1)
-% ============================================================================
-\begin{frame}[shrink=5]{Equipamento de Emissão: Fonte de Laser Diodo MCLS1}
-  \begin{columns}[T, onlytextwidth]
-    \begin{column}{0.52\textwidth}
-      \begin{block}{Thorlabs MCLS1 --- Multi-Channel Laser Source}
-        \begin{itemize}
-          \item Sistema de até 4 canais independentes de lasers diodo acoplados a fibra óptica (conectores \textbf{FC/PC}).
-          \item \textbf{Controle de Corrente e Temperatura (TEC):}
-          \begin{itemize}
-            \item Resolução de ajuste de corrente: $0{,}01\text{ mA}$.
-            \item Estabilização térmica Peltier: $20{,}00\text{ a }30{,}00\,^\circ\text{C}$ ($\pm 0{,}01\,^\circ\text{C}$), essencial para manter $\lambda$ e $P$ constantes.
-            \item Precisão do display de potência: $\pm 10\%$ (via fotodiodo monitor interno) e ruído $< 0{,}5\%$.
-          \end{itemize}
-          \item \textbf{Canais Utilizados no Experimento:}
-          \begin{enumerate}
-            \item \textbf{Laser Diodo 1:} $\lambda_1 = 1350\text{ nm}$ (série NIR $1310\text{--}1350\text{ nm}$ acoplado em fibra monomodo \texttt{SMF-28e+}).
-            \item \textbf{Laser Diodo 2:} $\lambda_2 = 1550\text{ nm}$ (faixa $1520\text{--}1580\text{ nm}$, fibra \texttt{SMF-28e+}).
-          \end{enumerate}
-        \end{itemize}
-      \end{block}
-      \vspace{-0.15cm}
-      \begin{alertblock}{Segurança Laser (Classe 3B)}
-        Requer chave de bloqueio (\textit{Keylock}), \textit{Interlock} traseiro fechado, atraso de segurança de $3\text{ s}$ na ativação e proteção ocular adequada para radiação NIR invisível.
-      \end{alertblock}
-    \end{column}
-
-    \begin{column}{0.45\textwidth}
-      \begin{center}
-        \includegraphics[width=0.96\textwidth]{figuras/mcls1_painel.png}\\
-        \vspace{0.1cm}
-        {\scriptsize \textbf{Painel Frontal do MCLS1:} Seleção de canais, ativação individual (\textit{Enable}), chave mestre (\textit{System Enable}) e visor LCD de potência ($P$) e temperatura ($T$).}
-      \end{center}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% ============================================================================
-% SLIDE 10: [EXPERIMENTO 3/5] FOTODIODO SM05PD5A E MÓDULO PBM42
-% ============================================================================
-\begin{frame}[shrink=8]{Sistema de Detecção: Fotodiodo SM05PD5A e Módulo PBM42}
+  \vspace{-0.1cm}
   \begin{columns}[T, onlytextwidth]
     \begin{column}{0.53\textwidth}
-      \begin{block}{Fotodiodo Montado InGaAs --- SM05PD5A}
+      \begin{block}{Especificações dos Componentes (Datasheets)}
+        \scriptsize
         \begin{itemize}
-          \item \textbf{Material Sensor:} $\text{InGaAs}$ (diodo correspondente: \texttt{FGA21}).
-          \item \textbf{Faixa Espectral ($\Lambda$):} $800\text{ a }1700\text{ nm}$ (Pico $\lambda_P = 1590\text{ nm}$).
-          \item \textbf{Responsividade de Pico:} $\mathcal{R}(\lambda_P) = 1{,}04\text{ A/W}$.
-          \item \textbf{Área Ativa:} $3{,}1\text{ mm}^2$ ($\varnothing\,2{,}0\text{ mm}$) em rosca externa SM05.
-          \item \textbf{Configuração Elétrica:} Tipo A (\textbf{Cátodo Aterrado / Grounded Cathode}); o ânodo gera a fotocorrente.
-          \item \textbf{Parâmetros ($V_R = 3\text{ V}$):} $C_J = 100\text{ pF}$, $I_d = 50\text{ nA}$ ($1\text{ V}$), $t_r = 25\text{ ns}$ ($R_L = 50\,\Omega$), \textbf{Tensão Reversa Máx.: $3\text{ V}$}.
+          \item \textbf{Fonte Thorlabs MCLS1:} 4 canais acoplados a fibra (\texttt{FC/PC}), controle de corrente ($0{,}01\text{ mA}$) e TEC ($20\text{--}30\,^\circ\text{C}$, $\pm 0{,}01\,^\circ\text{C}$). Precisão do visor: $\pm 10\%$. Laser Classe 3B (\textit{Keylock}, \textit{Interlock}, delay $3\text{ s}$).
+          \item \textbf{Fotodiodo SM05PD5A ($\text{InGaAs}$):} faixa $800\text{--}1700\text{ nm}$, pico $\mathcal{R}(1590\text{ nm}) = 1{,}04\text{ A/W}$, cátodo aterrado, $C_J = 100\text{ pF}$, $I_d = 50\text{ nA}$ ($1\text{ V}$), \textbf{máx. $V_R = 3\text{ V}$}.
+          \item \textbf{Módulo PBM42:} aplica $V_R$ (pino central positivo para cátodo aterrado) via filtro RC ($1\text{ k}\Omega$, $0{,}1\,\mu\text{F}$).
         \end{itemize}
       \end{block}
-      \vspace{-0.15cm}
-      \begin{exampleblock}{Módulo de Polarização --- Thorlabs PBM42}
-        \begin{itemize}
-          \item Aplica polarização reversa externa (\textbf{modo fotocondutivo}) via conector \textit{sub-mini phono} de $2{,}5\text{ mm}$ (para cátodo aterrado: \textbf{pino central positivo}, $V_B \le 3\text{ V}$).
-          \item Inclui filtro passa-baixas RC ($R = 1\text{ k}\Omega$, $C = 0{,}1\,\mu\text{F}$) para filtrar ruídos da fonte externa, com saída SMA acoplada em CC.
-        \end{itemize}
-      \end{exampleblock}
     \end{column}
 
     \begin{column}{0.44\textwidth}
       \begin{center}
+        \includegraphics[height=1.85cm]{figuras/mcls1_foto.png}\\[2pt]
+        {\tiny \textbf{Fonte Multicanal MCLS1}}
+        \vspace{0.1cm}
         \begin{columns}[c, onlytextwidth]
           \begin{column}{0.48\textwidth}
             \centering
-            \includegraphics[height=1.75cm]{figuras/sm05pd5a_foto.png}\\
-            {\tiny \textbf{Fotodiodo SM05PD5A}}
+            \includegraphics[height=1.55cm]{figuras/sm05pd5a_foto.png}\\
+            {\tiny \textbf{SM05PD5A}}
           \end{column}
           \begin{column}{0.48\textwidth}
             \centering
-            \includegraphics[height=1.75cm]{figuras/pbm42_foto.png}\\
-            {\tiny \textbf{Módulo de Bias PBM42}}
+            \includegraphics[height=1.55cm]{figuras/pbm42_foto.png}\\
+            {\tiny \textbf{PBM42}}
           \end{column}
         \end{columns}
-        \vspace{0.12cm}
-        \includegraphics[width=0.88\textwidth]{figuras/pbm42_catodo_aterrado.png}\\
-        {\scriptsize \textbf{Diagrama Interno (Cátodo Aterrado):} Polaridade de polarização reversa ($A: +$, $B: -$) no módulo PBM42.}
       \end{center}
     \end{column}
   \end{columns}
 \end{frame}
 
 % ============================================================================
-% SLIDE 11: [EXPERIMENTO 4/5] METODOLOGIA E EQUACIONAMENTO EXPERIMENTAL
+% SLIDE 7: [EXPERIMENTO 2/5] CIRCUITO, PROCEDIMENTO E EXIBIÇÃO DO VÍDEO
 % ============================================================================
-\begin{frame}[shrink=14]{Metodologia Experimental e Equacionamento do Circuito}
+\begin{frame}[shrink=2]{Circuito de Leitura, Procedimento e Vídeo do Experimento}
   \begin{columns}[T, onlytextwidth]
     \begin{column}{0.51\textwidth}
-      \begin{block}{Conversão Fotocorrente-Tensão e Resposta}
-        A fotocorrente gerada no ânodo do \texttt{SM05PD5A} percorre o resistor de carga $R_L$ conectado à saída SMA, produzindo a tensão de saída $V_o$:
+      \begin{block}{Circuito Equivalente e Equações de Medição}
+        A fotocorrente $I_P$ percorre o resistor de carga $R_L$, gerando $V_o$:
         \[
-          \mathbf{V_o = I_P \cdot R_L = P \cdot \mathcal{R}(\lambda) \cdot R_L \implies \mathcal{R}(\lambda) = \frac{V_o}{P \cdot R_L}}
-        \]
-        A largura de banda ($f_{BW}$) e o tempo de subida ($t_R$) dependem de $R_L$ e da capacitância de junção $C_J$:
-        \[
-          f_{BW} = \frac{1}{2\pi R_L C_J}, \qquad t_R = \frac{0{,}35}{f_{BW}}
+          V_o = I_P \cdot R_L = P \cdot \mathcal{R}(\lambda) \cdot R_L \implies \mathcal{R}(\lambda) = \frac{V_o}{P \cdot R_L}
         \]
         \begin{itemize}
-          \item \textbf{Alta velocidade:} terminação $R_L = 50\,\Omega$ ($f_{BW} \approx 31{,}8\text{ MHz}$ com $C_J = 100\text{ pF}$).
-          \item \textbf{Regime contínuo (CW):} pode-se usar $R_L$ maior (ou impedância de $1\text{ M}\Omega$ do instrumento) para amplificar $V_o$, respeitando $V_o < V_{\text{bias}}$ para evitar saturação.
+          \item \textbf{Condição de operação:} manter $V_o \ll V_R$ ($V_R \le 3\text{ V}$) para preservar a polarização reversa e a linearidade.
+          \item \textbf{Banda dinâmica:} $f_{BW} = \frac{1}{2\pi R_L C_J}$ (em CC/CW, $R_L$ maior amplia $V_o$ sem comprometer a medida estática).
         \end{itemize}
+        \begin{center}
+          \includegraphics[width=0.90\textwidth]{figuras/sm05pd5a_circuito.png}
+        \end{center}
       \end{block}
     \end{column}
 
     \begin{column}{0.46\textwidth}
-      \begin{center}
-        \includegraphics[width=0.92\textwidth]{figuras/sm05pd5a_circuito.png}\\
-        {\tiny \textbf{Circuito Recomendado (Datasheet SM05PD5A):} Filtro RC de polarização e resistor de carga $R_L$.}
-      \end{center}
-      \vspace{-0.2cm}
-      \begin{alertblock}{Roteiro do Procedimento Experimental}
+      \begin{exampleblock}{Roteiro Experimental Adotado}
         \begin{enumerate}
-          \item Conectar o \textbf{SM05PD5A} ao módulo \textbf{PBM42} e aplicar polarização reversa ($V_R \le 3\text{ V}$, ponta positiva).
-          \item Acoplar a fibra do \textbf{MCLS1} ao detector e estabilizar a temperatura em $25{,}00\,^\circ\text{C}$.
-          \item Ativar o \textbf{Canal 1 ($\lambda_1 = 1350\text{ nm}$)}, variar a potência óptica $P$ e registrar $V_o$ (ou $I_P$).
-          \item Repetir o procedimento para o \textbf{Canal 2 ($\lambda_2 = 1550\text{ nm}$)}.
-          \item Calcular $\mathcal{R}(\lambda) = \frac{V_o}{P \cdot R_L}$ para ambos os comprimentos de onda.
+          \item Polarizar reversamente o \textbf{SM05PD5A} via \textbf{PBM42} ($V_R = \text{[valor] V}$) e registrar o nível no escuro ($P=0$).
+          \item Estabilizar o \textbf{MCLS1} em $T = 25{,}00\,^\circ\text{C}$ e acoplar a fibra ao detector.
+          \item Variar a potência $P$ (múltiplos pontos) em $\lambda_1 = 1350\text{ nm}$ e registrar $V_o$ (ou $I_P$).
+          \item Repetir a varredura para $\lambda_2 = 1550\text{ nm}$ e obter $\mathcal{R}_{\text{exp}}$ por ajuste linear.
         \end{enumerate}
+      \end{exampleblock}
+      \vspace{-0.1cm}
+      \begin{alertblock}{Exibição em Sala: Vídeo do Experimento}
+        \scriptsize
+        \textbf{[Exibir vídeo gravado em laboratório neste momento]}
+        \begin{itemize}
+          \item Bancada real, ativação segura (NIR invisível), leitura no escuro e variação simultânea de $P$ e $V_o$ em $\lambda_1$ e $\lambda_2$.
+          \item \textbf{Em sala:} demonstração física do conjunto \texttt{SM05PD5A + PBM42} (desligado).
+        \end{itemize}
       \end{alertblock}
     \end{column}
   \end{columns}
 \end{frame}
 
 % ============================================================================
-% SLIDE 12: [EXPERIMENTO 5/5] RESULTADOS ESPERADOS E CONCLUSÕES
+% SLIDE 8: [EXPERIMENTO 3/5] COLETA DE DADOS E LINEARIDADE I_P x P
 % ============================================================================
-\begin{frame}[shrink=15]{Resultados Teóricos Esperados e Tabela para Coleta de Dados}
+\begin{frame}{Resultados Experimentais: Coleta e Linearidade ($I_P \times P$)}
   \begin{columns}[T, onlytextwidth]
-    \begin{column}{0.45\textwidth}
-      \begin{center}
-        \includegraphics[width=0.92\textwidth]{figuras/sm05pd5a_responsividade.png}\\
-        {\scriptsize \textbf{Curva de Responsividade (Datasheet SM05PD5A):} Crescimento quase linear entre $800\text{ nm}$ e $1590\text{ nm}$, seguido de queda abrupta no corte do \textit{gap} do $\text{InGaAs}$ ($\lambda_g \approx 1700\text{ nm}$).}
-      \end{center}
-    \end{column}
-
-    \begin{column}{0.52\textwidth}
-      \begin{block}{Previsão a partir da Curva do Datasheet e Teoria Quântica}
-        Usando $\mathcal{R}(\lambda) = \eta \dfrac{e\lambda}{hc} \approx \eta \dfrac{\lambda\,(\text{nm})}{1240}$ e lendo a curva do \texttt{SM05PD5A}:
-        \vspace{0.05cm}
-        \begin{table}
-          \centering
-          \scriptsize
-          \begin{tabular}{lccccc}
+    \begin{column}{0.51\textwidth}
+      \begin{block}{Tabela de Medidas Experimentais ($T = 25{,}00\,^\circ\text{C}$)}
+        \scriptsize
+        Parâmetros do circuito: $V_R = \text{[X] V}$, $R_L = \text{[Y] }\Omega$, sinal no escuro $V_{o,\text{esc}} = \text{[Z] mV}$.
+        \vspace{0.08cm}
+        \begin{center}
+          \begin{tabular}{cccc|ccc}
             \toprule
-            \textbf{Laser} & $\lambda$ & $E_{\text{fóton}}$ & $\mathcal{R}_{\text{datasheet}}$ & $\eta_{\text{estimada}}$ & $\mathcal{R}_{\text{exp}}$ \\
-            & (nm) & (eV) & (A/W) & (\%) & (A/W) \\
+            \multicolumn{4}{c|}{\textbf{Laser 1 ($\lambda_1 = 1350\text{ nm}$)}} & \multicolumn{3}{c}{\textbf{Laser 2 ($\lambda_2 = 1550\text{ nm}$)}} \\
+            $P$ & $V_o$ & $I_P$ & $\mathcal{R}_i$ & $P$ & $V_o$ & $I_P$ \\
+            (mW) & (mV) & (mA) & (A/W) & (mW) & (mV) & (mA) \\
             \midrule
-            \textbf{Laser 1} & $1350$ & $0{,}919$ & $\mathbf{\approx 0{,}88}$ & $\approx 80{,}8\%$ & \textit{A medir} \\
-            \textbf{Laser 2} & $1550$ & $0{,}800$ & $\mathbf{\approx 1{,}03}$ & $\approx 82{,}4\%$ & \textit{A medir} \\
-            \midrule
-            \textit{Pico PD} & $1590$ & $0{,}780$ & $1{,}04$ & $81{,}1\%$ & --- \\
+            \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} \\
+            \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} \\
+            \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} \\
+            \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} \\
+            \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} & \textit{---} \\
             \bottomrule
           \end{tabular}
-        \end{table}
-        \vspace{-0.15cm}
-        \begin{itemize}
-          \item \textbf{Razão teórica esperada:} $\dfrac{\mathcal{R}(1550\text{ nm})}{\mathcal{R}(1350\text{ nm})} \approx \dfrac{1{,}03}{0{,}88} \approx \mathbf{1{,}17}$ ($\sim 17\%$ maior em $1550\text{ nm}$).
-        \end{itemize}
+        \end{center}
       \end{block}
-
-      \vspace{-0.15cm}
-      \begin{exampleblock}{Conclusões da Fundamentação}
-        \begin{itemize}
-          \item A transição interbanda no semicondutor de \textit{gap} direto $\text{InGaAs}$ ($E_g \approx 0{,}73\text{ eV}$) permite detecção eficiente em $1350\text{ nm}$ e $1550\text{ nm}$, onde o $\text{Si}$ é transparente.
-          \item O aumento de $\mathcal{R}(\lambda)$ com $\lambda$ confirma a natureza quântica da fotodetecção: para uma mesma potência $P$, comprimentos de onda maiores fornecem maior fluxo de fótons ($\Phi = P\lambda/hc$).
-        \end{itemize}
+      \vspace{-0.1cm}
+      \begin{exampleblock}{Método da Regressão Linear}
+        \scriptsize Ajustando $I_P = \mathcal{R}_{\text{exp}}(\lambda)\cdot P + I_0$, a inclinação fornece $\mathcal{R}_{\text{exp}}$ reduzindo desvios de \textit{offset} (corrente de escuro / luz ambiente).
       \end{exampleblock}
     \end{column}
+
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Curvas Experimentais $I_P \times P$}
+        \begin{center}
+          \begin{tikzpicture}
+            \draw[dashed, color=SecondaryBlue, fill=white, rounded corners=4pt] (0,0) rectangle (6.2,4.5);
+            \node[align=center, font=\scriptsize\sffamily, color=PrimaryBlue] at (3.1,2.25) {
+              \textbf{[Inserir Gráfico $I_P$ (mA) $\times$ $P$ (mW)]}\\[6pt]
+              Pontos experimentais + retas ajustadas\\
+              para $\lambda_1 = 1350\text{ nm}$ e $\lambda_2 = 1550\text{ nm}$\\[4pt]
+              $\mathcal{R}_{\text{exp}}(1350) = \text{--- A/W}$ ($R^2 = \text{---}$)\\
+              $\mathcal{R}_{\text{exp}}(1550) = \text{--- A/W}$ ($R^2 = \text{---}$)
+            };
+          \end{tikzpicture}
+        \end{center}
+      \end{block}
+    \end{column}
   \end{columns}
+\end{frame}
+
+% ============================================================================
+% SLIDE 9: [EXPERIMENTO 4/5] COMPARAÇÃO COM DATASHEET E ANÁLISE DE ERROS
+% ============================================================================
+\begin{frame}[shrink=2]{Comparação com o Datasheet e Análise de Incertezas}
+  \begin{columns}[T, onlytextwidth]
+    \begin{column}{0.43\textwidth}
+      \begin{center}
+        \includegraphics[width=0.95\textwidth]{figuras/sm05pd5a_responsividade.png}\\
+        {\scriptsize \textbf{Curva do Fabricante (SM05PD5A):} Crescimento linear até $1590\text{ nm}$ e corte no \textit{gap} do $\text{InGaAs}$ ($\lambda_g \approx 1700\text{ nm}$).}
+      \end{center}
+      \vspace{-0.1cm}
+      \begin{exampleblock}{Razão Esperada entre os Lasers}
+        \scriptsize
+        \[
+          \frac{\mathcal{R}_{\text{ds}}(1550\text{ nm})}{\mathcal{R}_{\text{ds}}(1350\text{ nm})} \approx \frac{1{,}03}{0{,}88} \approx \mathbf{1{,}17}\quad (\sim 17\%\text{ maior})
+        \]
+        Pelo fluxo de fótons puro: $1550/1350 \approx 1{,}148$ ($+14{,}8\%$).
+      \end{exampleblock}
+    \end{column}
+
+    \begin{column}{0.54\textwidth}
+      \begin{block}{Síntese Comparativa: Teoria vs.\ Experimento}
+        \scriptsize
+        \begin{center}
+          \begin{tabular}{lccccc}
+            \toprule
+            $\lambda$ & $E_{\text{fóton}}$ & $\mathcal{R}_{\text{ds}}$ & $\mathcal{R}_{\text{exp}}$ & Desvio & $\eta_{\text{exp}}$ \\
+            (nm) & (eV) & (A/W) & (A/W) & (\%) & (\%) \\
+            \midrule
+            $1350$ & $0{,}919$ & $\approx 0{,}88$ & \textit{---} & \textit{---} & \textit{---} \\
+            $1550$ & $0{,}800$ & $\approx 1{,}03$ & \textit{---} & \textit{---} & \textit{---} \\
+            \midrule
+            \textit{Razão} & --- & $\approx 1{,}17$ & \textit{---} & \textit{---} & --- \\
+            \bottomrule
+          \end{tabular}
+        \end{center}
+      \end{block}
+      \vspace{-0.1cm}
+      \begin{alertblock}{Principais Fontes de Erro Experimental}
+        \scriptsize
+        \begin{itemize}
+          \item \textbf{Potência óptica ($P$):} o visor do \texttt{MCLS1} mede via fotodiodo interno com precisão de $\mathbf{\pm 10\%}$ e não contabiliza perdas nos conectores da fibra.
+          \item \textbf{Acoplamento fibra--sensor:} divergência do feixe ou alinhamento fora do centro da área ativa ($\varnothing\,2{,}0\text{ mm}$) e reflexão na entrada.
+          \item \textbf{Leitura elétrica:} tolerância do resistor $R_L$, resistência de contato e corrente de escuro/ruído térmico.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================================
+% SLIDE 10: [EXPERIMENTO 5/5] CONCLUSÕES
+% ============================================================================
+\begin{frame}{Conclusões}
+  \begin{block}{1. Seleção do Material e Teoria Quântica (Seção 8.3)}
+    A detecção em $1350\text{ nm}$ e $1550\text{ nm}$ exige semicondutores de \textit{gap} estreito e direto como a liga $\text{InGaAs}$ ($E_g \approx 0{,}73\text{ eV}$, corte $\lambda_g \approx 1{,}70\,\mu\text{m}$), superando a transparência do silício ($\lambda_g \approx 1{,}11\,\mu\text{m}$) nessas janelas de telecomunicações.
+  \end{block}
+  \vspace{0.08cm}
+  \begin{exampleblock}{2. Resposta Elétrica no Modo Fotocondutivo (Seção 8.4)}
+    A polarização reversa aplicada pelo módulo \textbf{PBM42} ($V_R \le 3\text{ V}$) alarga a região de depleção e garante a proporcionalidade linear entre fotocorrente e potência óptica ($I_P = \mathcal{R}(\lambda)\,P$), validada pelas curvas experimentais.
+  \end{exampleblock}
+  \vspace{0.08cm}
+  \begin{alertblock}{3. Confirmação Experimental da Natureza Quântica de $\mathcal{R}(\lambda)$}
+    O aumento de $\mathcal{R}_{\text{exp}}$ de $1350\text{ nm}$ para $1550\text{ nm}$ comprova a relação $\mathcal{R}(\lambda) = \frac{\eta e\lambda}{hc}$: para uma mesma potência óptica incidente, fótons de menor energia ($hc/\lambda$) produzem um fluxo de fótons maior, gerando mais pares elétron-buraco por Watt.
+  \end{alertblock}
 \end{frame}
 
 \end{document}
